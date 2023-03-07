@@ -1,4 +1,6 @@
+import 'package:breaking_bad/controller/quotes_provider.dart';
 import 'package:breaking_bad/view/home_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,11 +12,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Breaking Bad',
-      home: const HomeScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => QuotesProvider()),
+      ],
+      child: const MaterialApp(
+        color: Colors.white,
+        debugShowCheckedModeBanner: false,
+        title: 'Breaking Bad',
+        home: HomeScreen(),
+      ),
     );
   }
 }
-

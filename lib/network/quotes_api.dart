@@ -6,24 +6,25 @@ import '../model/quotes_model.dart';
 import 'package:http/http.dart' as http;
 
 class QuotesApi {
-  Future<QuotesModel?> data()async{
-    try{
+  Future<QuotesModel?> data() async {
+    try {
       String url = '${ApiUrl.mainUrl}${ApiUrl.quotes}';
       Uri uri = Uri.parse(url);
-      Map<String,String> headers = {
-        'Content-Type':'application/json',
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
       };
       log("Response:: QuotesResponse\nUrl:: $url\nheaders:: $headers");
-      http.Response response = await http.get(uri,headers: headers);
+      http.Response response = await http.get(uri, headers: headers);
       log("QuotesStatusCode:: ${response.statusCode}  QuotesBody:: ${response.body}");
-      QuotesModel quotesModel = QuotesModel.fromJson(json.decode(response.body));
-      if(response.statusCode==200){
+      final jsonResponse = json.decode(response.body);
+      QuotesModel quotesModel =
+          QuotesModel.fromJson(jsonResponse[0]);
+      if (response.statusCode == 200) {
         return quotesModel;
-      }
-      else{
+      } else {
         throw "Quotes Error";
       }
-    }catch(e){
+    } catch (e) {
       log("Quotes Error $e");
       return null;
     }
